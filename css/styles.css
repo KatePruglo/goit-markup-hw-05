@@ -8,6 +8,8 @@
   --accent-bg-color: #f4f4fd;
   --subtle-icon-color: #8e8f99;
   --succes-icon-color: #31d0aa;
+  --modal-background-color: #fcfcfc;
+
   --secondary-font: "Raleway", sans-serif;
   --card-set-gap: 24px;
   --card-set-gap-vertical: 48px;
@@ -126,17 +128,31 @@ img {
 .header-link {
   font-weight: 500;
   color: var(--header-color);
+  position: relative;
+  transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
-.header-link:hover,
-.header-link:focus {
+.header-link:is(:hover, :focus) {
   color: var(--primary-brand);
+}
+.current {
+  color: var(--pressed-state-color);
+}
+.header-link.current::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background-color: var(--pressed-state-color);
+  bottom: -27px;
 }
 .header-link-two {
   font-style: normal;
   color: var(--primary-text-color);
+  transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
-.header-link-two:hover,
-.header-link-two:focus {
+.header-link-two:is(:hover, :focus) {
   color: var(--primary-brand);
 }
 
@@ -178,9 +194,9 @@ img {
   padding: 16px 32px;
   background-color: var(--primary-brand);
   color: var(--primary-white-color);
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
-.hero-btn:hover,
-.hero-btn:focus {
+.hero-btn:is(:hover, :focus) {
   background-color: var(--pressed-state-color);
 }
 /* ---------Descriptions--------- */
@@ -260,9 +276,9 @@ img {
 .team-social-link {
   border-radius: 50%;
   background-color: var(--primary-brand);
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
-.team-social-link:hover,
-.team-social-link:focus {
+.team-social-link:is(:hover, :focus) {
   background-color: var(--pressed-state-color);
 }
 .team-social-link {
@@ -304,9 +320,10 @@ img {
   fill: var(--subtle-icon-color);
   border: 1px solid var(--subtle-icon-color);
   border-radius: 4px;
+  transition: fill 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
-.customers-link:hover,
-.customers-link:focus {
+.customers-link:is(:hover, :focus) {
   fill: var(--pressed-state-color);
   border-color: var(--pressed-state-color);
 }
@@ -358,9 +375,9 @@ img {
 .footer-social-link {
   border-radius: 50%;
   background-color: rgba(255, 255, 255, 0.1);
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
-.footer-social-link:hover,
-.footer-social-link:focus {
+.footer-social-link:is(:hover, :focus) {
   background-color: var(--succes-icon-color);
 }
 .footer-social-link {
@@ -406,9 +423,9 @@ img {
 }
 .service-box {
   display: block;
+  transition: box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
-.service-box:hover,
-.service-box:focus {
+.service-box:is(:hover, :focus) {
   box-shadow: 0px 1px 6px rgba(46, 47, 66, 0.08),
     0px 1px 1px rgba(46, 47, 66, 0.16), 0px 2px 1px rgba(46, 47, 66, 0.08);
 }
@@ -425,12 +442,85 @@ img {
   padding: 12px 24px;
   background-color: var(--accent-bg-color);
   color: var(--pressed-state-color);
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    color 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
-.portfolio-btn:hover,
-.portfolio-btn:focus {
+.portfolio-btn:is(:hover, :focus) {
   background-color: var(--pressed-state-color);
   color: var(--accent-text-color);
   border-color: var(--pressed-state-color);
   box-shadow: 0px 3px 1px rgba(0, 0, 0, 0.1), 0px 2px 1px rgba(0, 0, 0, 0.08),
     0px 2px 1px rgba(0, 0, 0, 0.12);
+}
+.service-thumb {
+  position: relative;
+  overflow: hidden;
+}
+.service-overlay {
+  color: var(--accent-bg-color);
+  padding: 40px 32px 164px 32px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: translateY(100%);
+  background-color: var(--pressed-state-color);
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.service-box:is(:hover, :focus) .service-overlay {
+  transform: translateY(0);
+}
+/* --------------modal-------------- */
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(46, 47, 66, 0.4);
+  transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    visibility 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  padding: 24px;
+  width: 408px;
+  height: 576px;
+  background-color: var(--modal-background-color);
+  border-radius: 4px;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.14), 0px 1px 3px rgba(0, 0, 0, 0.12),
+    0px 2px 1px 0px rgba(0, 0, 0, 0.2);
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.modal-close-btn {
+  display: block;
+  margin-left: auto;
+  width: 24px;
+  height: 24px;
+  color: var(--header-color);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  background-color: var(--accent-text-color);
+  box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.2), 0px 1px 1px rgba(0, 0, 0, 0.14),
+    0px 1px 3px rgba(0, 0, 0, 0.12);
+  transition: fill 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.modal-close-btn:is(:hover, :focus) {
+  fill: var(--primary-white-color);
+  background-color: var(--pressed-state-color);
+}
+.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.backdrop.is-hidden .modal {
+  transform: translate(-50%, -50%) scale(0);
 }
